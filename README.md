@@ -53,3 +53,7 @@ pnpm dev
 ```
 
 Your app template should now be running on [localhost:3000](http://localhost:3000).
+
+<div align="center">
+  <sub>Built with ❤️ by <a href="https://www.google.com/search?q=https://github.com/haqorayush">haqorayush</a></sub>
+</div>
