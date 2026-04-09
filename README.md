@@ -75,14 +75,31 @@ print(response)
 
 ## 📦 Project Structure
 
+```text
+chat.SDK/
+├── app/                    # Sample application module
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/       # UI implementation and Activity logic
+│   │   │   └── res/        # App-specific layout and resource files
+│   └── build.gradle
+├── chat-sdk-core/          # Core logic, interfaces, and common services
+├── chat-sdk-core-ui/       # Base UI components and fragment definitions
+├── chat-sdk-firebase/      # Firebase network adapter and data syncing
+├── chat-sdk-mod-auth/      # Authentication modules (Social, Anonymous, etc.)
+├── chat-sdk-pro/           # Professional/Premium feature extensions
+├── gradle/                 # Gradle wrapper and configuration files
+├── .gitignore              # Git ignore rules
+├── build.gradle            # Root build script
+├── gradle.properties       # Project-wide Gradle settings
+├── settings.gradle         # Project module definitions
+└── README.md               # Project documentation
 ```
-chat-sdk/
-│── core/              # Session and memory management
-│── providers/         # LLM provider integrations
-│── utils/             # Utility functions
-│── examples/          # Example implementations
-│── tests/             # Unit tests
-```
+Explained:
+* **`chat-sdk-core`**: The heart of the SDK containing the data models (User, Thread, Message) and the `NetworkManager`.
+* **`chat-sdk-firebase`**: Handles the heavy lifting of real-time data persistence using Firebase Realtime Database or Firestore.
+* **`chat-sdk-core-ui`**: Provides a plug-and-play UI so you don't have to build chat screens from scratch.
+* **`app`**: A demo module that shows exactly how to initialize and launch the SDK in a real Android environment.
 
 ---
 
