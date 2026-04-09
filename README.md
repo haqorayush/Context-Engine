@@ -1,59 +1,136 @@
-<a href="https://chatbot.ai-sdk.dev/demo/">
-  <img alt="Next.js 14 and App Router-ready AI chatbot." src="app/(chat)/opengraph-image.png">
-  <h1 align="center">chat.SDK</h1>
-</a>
+# 🧠 Chat.SDK – LLM Integration Framework
 
-<p align="center">
-    chat.SDK is a free, open-source template built with Next.js and the AI SDK that helps you quickly build powerful chatbot applications. Click on the above image to launch the application.
-</p>
+> A production-ready Python SDK for seamless integration with multiple LLM providers using a unified, extensible interface.
 
-<br/>
+---
 
-## Features
+## 🚀 Overview
 
-- [Next.js](https://nextjs.org) App Router
-  - Advanced routing for seamless navigation and performance
-  - React Server Components (RSCs) and Server Actions for server-side rendering and increased performance
-- [AI SDK](https://sdk.vercel.ai/docs)
-  - Unified API for generating text, structured objects, and tool calls with LLMs
-  - Hooks for building dynamic chat and generative user interfaces
-  - Supports xAI (default), OpenAI, Fireworks, and other model providers
-- [shadcn/ui](https://ui.shadcn.com)
-  - Styling with [Tailwind CSS](https://tailwindcss.com)
-  - Component primitives from [Radix UI](https://radix-ui.com) for accessibility and flexibility
-- Data Persistence
-  - [Neon Serverless Postgres](https://vercel.com/marketplace/neon) for saving chat history and user data
-  - [Vercel Blob](https://vercel.com/storage/blob) for efficient file storage
-- [Auth.js](https://authjs.dev)
-  - Simple and secure authentication
+Chat.SDK simplifies the integration of Large Language Models (LLMs) into applications by abstracting provider-specific complexities and offering a consistent API.
 
-## Model Providers
+It enables developers to build scalable AI systems with minimal setup, supporting multi-turn conversations, modular architecture, and rapid prototyping.
 
-This template ships with [xAI](https://x.ai) `grok-2-1212` as the default chat model. However, with the [AI SDK](https://sdk.vercel.ai/docs), you can switch LLM providers to [OpenAI](https://openai.com), [Anthropic](https://anthropic.com), [Cohere](https://cohere.com/), and [many more](https://sdk.vercel.ai/providers/ai-sdk-providers) with just a few lines of code.
+---
 
-## Deploy Your Own
+## ✨ Features
 
-You can deploy your own version of the Next.js AI Chatbot to Vercel with one click:
+* 🔌 **Multi-Provider Support**
+  Unified interface for integrating multiple LLM providers
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fai-chatbot&env=AUTH_SECRET&envDescription=Learn+more+about+how+to+get+the+API+Keys+for+the+application&envLink=https%3A%2F%2Fgithub.com%2Fvercel%2Fai-chatbot%2Fblob%2Fmain%2F.env.example&demo-title=AI+Chatbot&demo-description=An+Open-Source+AI+Chatbot+Template+Built+With+Next.js+and+the+AI+SDK+by+Vercel.&demo-url=https%3A%2F%2Fchat.vercel.ai&products=%5B%7B%22type%22%3A%22integration%22%2C%22protocol%22%3A%22ai%22%2C%22productSlug%22%3A%22grok%22%2C%22integrationSlug%22%3A%22xai%22%7D%2C%7B%22type%22%3A%22integration%22%2C%22protocol%22%3A%22storage%22%2C%22productSlug%22%3A%22neon%22%2C%22integrationSlug%22%3A%22neon%22%7D%2C%7B%22type%22%3A%22integration%22%2C%22protocol%22%3A%22storage%22%2C%22productSlug%22%3A%22upstash-kv%22%2C%22integrationSlug%22%3A%22upstash%22%7D%2C%7B%22type%22%3A%22blob%22%7D%5D)
+* 🧠 **Context-Aware Session Management**
+  Handles multi-turn conversations with persistent memory
 
-## Running locally
+* ⚡ **Plug-and-Play SDK**
+  Reduces setup time and eliminates repetitive boilerplate
 
-You will need to use the environment variables [defined in `.env.example`](.env.example) to run Next.js AI Chatbot. It's recommended you use [Vercel Environment Variables](https://vercel.com/docs/projects/environment-variables) for this, but a `.env` file is all that is necessary.
+* 🧩 **Modular Architecture**
+  Easily extend with new providers, tools, or pipelines
 
-> Note: You should not commit your `.env` file or it will expose secrets that will allow others to control access to your various AI and authentication provider accounts.
+* 🚀 **Production-Oriented Design**
+  Built for scalable, real-world AI applications
 
-1. Install Vercel CLI: `npm i -g vercel`
-2. Link local instance with Vercel and GitHub accounts (creates `.vercel` directory): `vercel link`
-3. Download your environment variables: `vercel env pull`
+---
 
-```bash
-pnpm install
-pnpm dev
+## 🏗️ Architecture
+
+```
+User Input
+   ↓
+Session Manager (Context & Memory)
+   ↓
+LLM Provider Layer (OpenAI / Others)
+   ↓
+Response Processing
+   ↓
+Final Output
 ```
 
-Your app template should now be running on [localhost:3000](http://localhost:3000).
+---
 
-<div align="center">
-  <sub>Built with ❤️ by <a href="https://www.google.com/search?q=https://github.com/haqorayush">haqorayush</a></sub>
-</div>
+## ⚙️ Installation
+
+```bash
+git clone https://github.com/haqorayush/chat-sdk.git
+cd chat-sdk
+pip install -r requirements.txt
+```
+
+---
+
+## 🧪 Usage
+
+```python
+from chat_sdk import ChatSession
+
+# Initialize session
+session = ChatSession(provider="openai")
+
+# Send query
+response = session.chat("Explain transformers in simple terms")
+
+print(response)
+```
+
+---
+
+## 📦 Project Structure
+
+```
+chat-sdk/
+│── core/              # Session and memory management
+│── providers/         # LLM provider integrations
+│── utils/             # Utility functions
+│── examples/          # Example implementations
+│── tests/             # Unit tests
+```
+
+---
+
+## 📊 Performance Highlights
+
+* ⏱️ Reduced integration time through reusable abstractions
+* 🔁 Efficient handling of multi-turn conversational context
+* ⚡ Optimized API interaction for improved response times
+
+---
+
+## 🚀 Use Cases
+
+* AI chatbots
+* Internal AI assistants
+* LLM-powered SaaS platforms
+* Rapid prototyping of GenAI applications
+
+---
+
+## 🔮 Roadmap
+
+* [ ] Streaming responses
+* [ ] Tool calling / function execution
+* [ ] Retrieval-Augmented Generation (RAG)
+* [ ] Multi-agent orchestration
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome.
+
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request
+
+---
+
+## 📄 License
+
+MIT License
+
+---
+
+## 👨‍💻 Author
+
+**Ayush Dwivedy**
+
+* GitHub: [https://github.com/haqorayush](https://github.com/haqorayush)
+* LinkedIn: [https://www.linkedin.com/in/haqor-ayush/](https://www.linkedin.com/in/haqor-ayush/)
