@@ -1,4 +1,4 @@
-# 🧠 Chat.SDK – LLM Integration Framework
+# 🧠 Context-Engine (Chat.SDK) – LLM Integration Framework
 
 > A production-ready Python SDK for seamless integration with multiple LLM providers using a unified, extensible interface.
 
@@ -6,7 +6,7 @@
 
 ## 🚀 Overview
 
-Chat.SDK simplifies the integration of Large Language Models (LLMs) into applications by abstracting provider-specific complexities and offering a consistent API.
+Context-Engine simplifies the integration of Large Language Models (LLMs) into applications by abstracting provider-specific complexities and offering a consistent API.
 
 It enables developers to build scalable AI systems with minimal setup, supporting multi-turn conversations, modular architecture, and rapid prototyping.
 
@@ -50,7 +50,7 @@ Final Output
 ## ⚙️ Installation
 
 ```bash
-git clone https://github.com/haqorayush/chat-sdk.git
+git clone https://github.com/haqorayush/Context-Engine.git
 cd chat-sdk
 pip install -r requirements.txt
 ```
