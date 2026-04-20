@@ -1,153 +1,249 @@
-# 🧠 Context-Engine (Chat.SDK) – LLM Integration Framework
+🧠 Context-Engine — Memory-Aware LLM Orchestration Framework (formerly Chat.SDK)
+============================================================
 
-> A production-ready Python SDK for seamless integration with multiple LLM providers using a unified, extensible interface.
+> A modular Python framework for building **stateful, production-oriented LLM systems** with structured memory, provider abstraction, and extensible pipelines.
 
----
+📌 Why this exists
+------------------
 
-## 🚀 Overview
+Most LLM applications today are built as:
 
-Context-Engine simplifies the integration of Large Language Models (LLMs) into applications by abstracting provider-specific complexities and offering a consistent API.
+*   simple prompt + API wrappers
+    
+*   tightly coupled logic
+    
+*   no reusable memory or orchestration layer
+    
 
-It enables developers to build scalable AI systems with minimal setup, supporting multi-turn conversations, modular architecture, and rapid prototyping.
+This approach breaks down as soon as systems need:
 
----
+*   multi-turn conversations
+    
+*   context management
+    
+*   extensibility (tools, RAG, agents)
+    
 
-## ✨ Features
+**Context-Engine explores a system-first approach to LLM applications.**
 
-* 🔌 **Multi-Provider Support**
-  Unified interface for integrating multiple LLM providers
+🧠 Core Concept
+---------------
 
-* 🧠 **Context-Aware Session Management**
-  Handles multi-turn conversations with persistent memory
+Instead of directly calling an LLM, interactions are processed through a structured pipeline that separates concerns and enables better control over context, memory, and response generation.
 
-* ⚡ **Plug-and-Play SDK**
-  Reduces setup time and eliminates repetitive boilerplate
+### 🔄 Processing Flow
 
-* 🧩 **Modular Architecture**
-  Easily extend with new providers, tools, or pipelines
-
-* 🚀 **Production-Oriented Design**
-  Built for scalable, real-world AI applications
-
----
-
-## 🏗️ Architecture
-
-```
+```Markdown
 User Input
-   ↓
-Session Manager (Context & Memory)
-   ↓
-LLM Provider Layer (OpenAI / Others)
-   ↓
-Response Processing
-   ↓
-Final Output
-```
+    ↓    
+Pre-processing Layer
+    ↓    
+Context Injection (Session Memory)
+    ↓    
+LLM Provider Abstraction
+    ↓    
+Post-processing
+    ↓    
+Memory Update
+```  
 
----
+### ⚙️ What this enables
 
-## ⚙️ Installation
+*   **Stateful interactions**Maintains conversation history across multiple turns
+    
+*   **Controlled context injection**Ensures relevant information is passed to the model
+    
+*   **Provider independence**Switch LLM providers without changing application logic
+    
+*   **Extensibility**Easily integrate tools, RAG pipelines, or custom processing layers
+    
+*   **Separation of concerns**Each component (memory, model, pipeline) operates independently
+    
 
-```bash
-git clone https://github.com/haqorayush/Context-Engine.git
-cd chat-sdk
-pip install -r requirements.txt
-```
+### 🧠 Design Philosophy
 
----
+Treat LLM applications as **systems**, not scripts.
 
-## 🧪 Usage
+This means:
+
+*   structuring interactions through pipelines
+    
+*   abstracting dependencies
+    
+*   designing for scale and extensibility from the start
+
+✨ Key Features
+--------------
+
+### 🧠 Session Memory System
+
+*   Maintains conversational state across interactions
+    
+*   Injects relevant context into each request
+    
+*   Designed to handle context-window constraints
+    
+
+### 🔌 LLM Provider Abstraction
+
+*   Unified interface for multiple providers
+    
+*   Swap models without changing application logic
+    
+
+### 🧩 Modular Orchestration Pipeline
+
+*   Decouples:
+    
+    *   memory
+        
+    *   model
+        
+    *   processing logic
+        
+*   Enables structured LLM workflows instead of ad-hoc scripts
+    
+
+### ⚙️ Extensible by Design
+
+*   Add custom tools, pipelines, or providers
+    
+*   Designed for future extensions like:
+    
+    *   Retrieval-Augmented Generation (RAG)
+        
+    *   tool calling
+        
+    *   multi-agent systems
+        
+
+⚙️ Example Usage
+----------------
 
 ```python
-from chat_sdk import ChatSession
+from chat_sdk import ChatSession  
 
-# Initialize session
-session = ChatSession(provider="openai")
+# Initialize a session with provider  
+session = ChatSession(provider="openai")  
 
-# Send query
-response = session.chat("Explain transformers in simple terms")
+# Multi-turn interaction  
+response = session.chat("Explain embeddings in simple terms")  
+print(response)  
 
+response = session.chat("Now relate that to search systems")  
 print(response)
 ```
 
----
+🧠 How Memory Works
+-------------------
 
-## 📦 Project Structure
+Each session maintains structured conversational history:
 
-```text
-chat.SDK/
-├── app/                    # Sample application module
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/       # UI implementation and Activity logic
-│   │   │   └── res/        # App-specific layout and resource files
-│   └── build.gradle
-├── chat-sdk-core/          # Core logic, interfaces, and common services
-├── chat-sdk-core-ui/       # Base UI components and fragment definitions
-├── chat-sdk-firebase/      # Firebase network adapter and data syncing
-├── chat-sdk-mod-auth/      # Authentication modules (Social, Anonymous, etc.)
-├── chat-sdk-pro/           # Professional/Premium feature extensions
-├── gradle/                 # Gradle wrapper and configuration files
-├── .gitignore              # Git ignore rules
-├── build.gradle            # Root build script
-├── gradle.properties       # Project-wide Gradle settings
-├── settings.gradle         # Project module definitions
-└── README.md               # Project documentation
+```markdown
+[User Query]
+    ↓  
+Retrieve Session Context
+    ↓
+Inject into Prompt
+    ↓
+LLM Call
+    ↓
+Append Response to Memory
 ```
-Explained:
-* **`chat-sdk-core`**: The heart of the SDK containing the data models (User, Thread, Message) and the `NetworkManager`.
-* **`chat-sdk-firebase`**: Handles the heavy lifting of real-time data persistence using Firebase Realtime Database or Firestore.
-* **`chat-sdk-core-ui`**: Provides a plug-and-play UI so you don't have to build chat screens from scratch.
-* **`app`**: A demo module that shows exactly how to initialize and launch the SDK in a real Android environment.
 
----
+### Design Tradeoffs
 
-## 📊 Performance Highlights
+*   Context size vs latency
+    
+*   Relevance vs noise accumulation
+    
+*   Simplicity vs extensibility
+    
 
-* ⏱️ Reduced integration time through reusable abstractions
-* 🔁 Efficient handling of multi-turn conversational context
-* ⚡ Optimized API interaction for improved response times
+🏗️ Internal Architecture
+-------------------------
 
----
+Core components:
 
-## 🚀 Use Cases
+*   **ChatSession** → manages session lifecycle
+    
+*   **MemoryManager** → handles context storage & retrieval
+    
+*   **LLMProvider** → abstracts model-specific logic
+    
+*   **Pipeline** → orchestrates full request flow
+    
 
-* AI chatbots
-* Internal AI assistants
-* LLM-powered SaaS platforms
-* Rapid prototyping of GenAI applications
+🌐 Live Demo
+------------
 
----
+👉 [https://chatbot.ai-sdk.dev/demo](https://chatbot.ai-sdk.dev/demo)
 
-## 🔮 Roadmap
+Try:
 
-* [ ] Streaming responses
-* [ ] Tool calling / function execution
-* [ ] Retrieval-Augmented Generation (RAG)
-* [ ] Multi-agent orchestration
+*   multi-turn queries
+    
+*   follow-up questions
+    
 
----
+Observe how context is retained across interactions.
 
-## 🤝 Contributing
+📂 Suggested Project Structure
+------------------------------
+
+```Markdown
+chat_sdk/
+├── core/
+│     ├── session.py
+│     ├── memory.py
+│     ├── provider.py
+│     └── pipeline.py
+├── providers/
+├── memory/
+├── utils/
+├── examples/
+└── README.md
+```
+
+🚧 Roadmap
+----------
+
+*    Tool calling / function execution
+    
+*    Vector-based long-term memory (FAISS / Chroma)
+    
+*    Retrieval-Augmented Generation (RAG)
+    
+*    Streaming responses
+    
+*    Evaluation framework (response quality, retrieval accuracy)
+    
+
+🎯 What this project demonstrates
+---------------------------------
+
+*   Designing LLM systems beyond simple API usage
+    
+*   Managing conversational context effectively
+    
+*   Building modular, extensible AI infrastructure
+    
+*   Thinking in terms of **systems, not scripts**
+    
+
+🤝 Contributing
+---------------
 
 Contributions are welcome.
 
-1. Fork the repository
-2. Create a feature branch
-3. Submit a pull request
+1.  Fork the repo
+    
+2.  Create a feature branch
+    
+3.  Submit a PR
+    
 
----
+👨‍💻 Author
+------------
 
-## 📄 License
-
-MIT License
-
----
-
-## 👨‍💻 Author
-
-**Ayush Dwivedy**
-
-* GitHub: [https://github.com/haqorayush](https://github.com/haqorayush)
-* LinkedIn: [https://www.linkedin.com/in/haqor-ayush/](https://www.linkedin.com/in/haqor-ayush/)
+**Ayush Dwivedy**GitHub: [https://github.com/haqorayush](https://github.com/haqorayush)LinkedIn: [https://www.linkedin.com/in/haqor-ayush/](https://www.linkedin.com/in/haqor-ayush/)
