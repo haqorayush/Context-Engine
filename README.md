@@ -246,4 +246,6 @@ Contributions are welcome.
 👨‍💻 Author
 ------------
 
-**Ayush Dwivedy**GitHub: [https://github.com/haqorayush](https://github.com/haqorayush)LinkedIn: [https://www.linkedin.com/in/haqor-ayush/](https://www.linkedin.com/in/haqor-ayush/)
+**Ayush Dwivedy**
+[Github](https://github.com/haqorayush)
+[LinkedIn](https://www.linkedin.com/in/haqor-ayush/)
