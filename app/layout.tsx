@@ -7,9 +7,9 @@ import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("http://localhost:3000"),
-  title: "Next.js Chatbot Template",
-  description: "Next.js chatbot template using the AI SDK.",
+  metadataBase: new URL("https://context-engine-haqorayushs-projects.vercel.app"),
+  title: "Context Engine",
+  description: "A powerful context-aware AI chatbot.",
 };
 
 export const viewport = {
