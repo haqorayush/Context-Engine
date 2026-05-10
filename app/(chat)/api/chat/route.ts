@@ -1,4 +1,3 @@
-import { geolocation, ipAddress } from "@vercel/functions";
 import {
   convertToModelMessages,
   createUIMessageStream,
@@ -84,7 +83,8 @@ export async function POST(request: Request) {
       ? selectedChatModel
       : DEFAULT_CHAT_MODEL;
 
-    await checkIpRateLimit(ipAddress(request));
+    const ip = request.headers.get("x-forwarded-for") ?? "127.0.0.1";
+    await checkIpRateLimit(ip);
 
     const userType: UserType = session.user.type;
 
@@ -156,13 +156,11 @@ export async function POST(request: Request) {
       ];
     }
 
-    const { longitude, latitude, city, country } = geolocation(request);
-
     const requestHints: RequestHints = {
-      longitude,
-      latitude,
-      city,
-      country,
+      longitude: request.headers.get("x-vercel-ip-longitude") ?? undefined,
+      latitude: request.headers.get("x-vercel-ip-latitude") ?? undefined,
+      city: request.headers.get("x-vercel-ip-city") ?? "Unknown",
+      country: request.headers.get("x-vercel-ip-country") ?? "Unknown",
     };
 
     if (message?.role === "user") {
@@ -207,9 +205,6 @@ export async function POST(request: Request) {
                   "requestSuggestions",
                 ],
           providerOptions: {
-            ...(modelConfig?.gatewayOrder && {
-              gateway: { order: modelConfig.gatewayOrder },
-            }),
             ...(modelConfig?.reasoningEffort && {
               openai: { reasoningEffort: modelConfig.reasoningEffort },
             }),

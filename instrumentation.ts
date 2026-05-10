@@ -1,5 +1,3 @@
-import { registerOTel } from "@vercel/otel";
-
 export function register() {
-  registerOTel({ serviceName: "chatbot" });
+  // OTel registration can go here for self-hosting
 }

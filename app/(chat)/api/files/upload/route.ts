@@ -1,4 +1,5 @@
-import { put } from "@vercel/blob";
+import { promises as fs } from "fs";
+import path from "path";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -49,9 +50,17 @@ export async function POST(request: Request) {
     const fileBuffer = await file.arrayBuffer();
 
     try {
-      const data = await put(`${safeName}`, fileBuffer, {
-        access: "public",
-      });
+      const uploadsDir = path.join(process.cwd(), "public", "uploads");
+      await fs.mkdir(uploadsDir, { recursive: true });
+      const filePath = path.join(uploadsDir, safeName);
+      
+      await fs.writeFile(filePath, Buffer.from(fileBuffer));
+
+      const data = {
+        url: `/uploads/${safeName}`,
+        pathname: safeName,
+        contentType: file.type,
+      };
 
       return NextResponse.json(data);
     } catch (_error) {

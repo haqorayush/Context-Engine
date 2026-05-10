@@ -1,11 +1,11 @@
 export const DEFAULT_CHAT_MODEL = "moonshotai/kimi-k2-0905";
 
 export const titleModel = {
-  id: "mistral/mistral-small",
-  name: "Mistral Small",
-  provider: "mistral",
+  id: "moonshotai/kimi-k2-0905",
+  name: "Kimi K2 0905",
+  provider: "moonshotai",
   description: "Fast model for title generation",
-  gatewayOrder: ["mistral"],
+  gatewayOrder: ["baseten", "fireworks"],
 };
 
 export type ModelCapabilities = {
@@ -87,44 +87,7 @@ export const chatModels: ChatModel[] = [
 export async function getCapabilities(): Promise<
   Record<string, ModelCapabilities>
 > {
-  const results = await Promise.all(
-    chatModels.map(async (model) => {
-      try {
-        const res = await fetch(
-          `https://ai-gateway.vercel.sh/v1/models/${model.id}/endpoints`,
-          { next: { revalidate: 86_400 } }
-        );
-        if (!res.ok) {
-          return [model.id, { tools: false, vision: false, reasoning: false }];
-        }
-
-        const json = await res.json();
-        const endpoints = json.data?.endpoints ?? [];
-        const params = new Set(
-          endpoints.flatMap(
-            (e: { supported_parameters?: string[] }) =>
-              e.supported_parameters ?? []
-          )
-        );
-        const inputModalities = new Set(
-          json.data?.architecture?.input_modalities ?? []
-        );
-
-        return [
-          model.id,
-          {
-            tools: params.has("tools"),
-            vision: inputModalities.has("image"),
-            reasoning: params.has("reasoning"),
-          },
-        ];
-      } catch {
-        return [model.id, { tools: false, vision: false, reasoning: false }];
-      }
-    })
-  );
-
-  return Object.fromEntries(results);
+  return {};
 }
 
 export const isDemo = process.env.IS_DEMO === "1";
@@ -143,31 +106,25 @@ export type GatewayModelWithCapabilities = ChatModel & {
 export async function getAllGatewayModels(): Promise<
   GatewayModelWithCapabilities[]
 > {
-  try {
-    const res = await fetch("https://ai-gateway.vercel.sh/v1/models", {
-      next: { revalidate: 86_400 },
-    });
-    if (!res.ok) {
-      return [];
-    }
+  const capabilities: Record<string, ModelCapabilities> = {
+    "deepseek/deepseek-v3.2": { tools: true, vision: false, reasoning: true },
+    "mistral/codestral": { tools: true, vision: false, reasoning: false },
+    "mistral/mistral-small": { tools: true, vision: true, reasoning: false },
+    "moonshotai/kimi-k2-0905": { tools: false, vision: false, reasoning: false },
+    "moonshotai/kimi-k2.5": { tools: true, vision: true, reasoning: true },
+    "openai/gpt-oss-20b": { tools: true, vision: false, reasoning: true },
+    "openai/gpt-oss-120b": { tools: true, vision: false, reasoning: true },
+    "xai/grok-4.1-fast-non-reasoning": { tools: true, vision: true, reasoning: false },
+  };
 
-    const json = await res.json();
-    return (json.data ?? [])
-      .filter((m: GatewayModel) => m.type === "language")
-      .map((m: GatewayModel) => ({
-        id: m.id,
-        name: m.name,
-        provider: m.id.split("/")[0],
-        description: "",
-        capabilities: {
-          tools: m.tags?.includes("tool-use") ?? false,
-          vision: m.tags?.includes("vision") ?? false,
-          reasoning: m.tags?.includes("reasoning") ?? false,
-        },
-      }));
-  } catch {
-    return [];
-  }
+  return chatModels.map((model) => ({
+    ...model,
+    capabilities: capabilities[model.id] ?? {
+      tools: false,
+      vision: false,
+      reasoning: false,
+    },
+  }));
 }
 
 export function getActiveModels(): ChatModel[] {
