@@ -1,9 +1,17 @@
-import { promises as fs } from "fs";
-import path from "path";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 import { auth } from "@/app/(auth)/auth";
+
+const r2 = new S3Client({
+  region: "auto",
+  endpoint: process.env.R2_ENDPOINT,
+  credentials: {
+    accessKeyId: process.env.R2_ACCESS_KEY_ID ?? "",
+    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY ?? "",
+  },
+});
 
 const FileSchema = z.object({
   file: z
@@ -46,18 +54,22 @@ export async function POST(request: Request) {
     }
 
     const filename = (formData.get("file") as File).name;
-    const safeName = filename.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const safeName = `${Date.now()}-${filename.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
     const fileBuffer = await file.arrayBuffer();
 
     try {
-      const uploadsDir = path.join(process.cwd(), "public", "uploads");
-      await fs.mkdir(uploadsDir, { recursive: true });
-      const filePath = path.join(uploadsDir, safeName);
-      
-      await fs.writeFile(filePath, Buffer.from(fileBuffer));
+      await r2.send(
+        new PutObjectCommand({
+          Bucket: process.env.R2_BUCKET_NAME,
+          Key: safeName,
+          Body: Buffer.from(fileBuffer),
+          ContentType: file.type,
+        })
+      );
 
+      const publicDomain = process.env.R2_PUBLIC_DOMAIN;
       const data = {
-        url: `/uploads/${safeName}`,
+        url: `${publicDomain}/${safeName}`,
         pathname: safeName,
         contentType: file.type,
       };
@@ -73,3 +85,4 @@ export async function POST(request: Request) {
     );
   }
 }
+
