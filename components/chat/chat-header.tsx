@@ -42,6 +42,10 @@ function PureChatHeader({
         />
       )}
 
+      <span className="flex items-center gap-1 text-sm leading-none text-sidebar-foreground/70">
+        <span className="font-semibold">Context-Engine</span>
+        <span className="text-xs italic">by haqorayush</span>
+      </span>
 
     </header>
   );
