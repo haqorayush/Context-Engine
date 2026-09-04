@@ -177,7 +177,7 @@ Core components:
 🌐 Live Demo
 ------------
 
-👉 [https://chatbot.ai-sdk.dev/demo](https://chatbot.ai-sdk.dev/demo)
+👉 [https://chatbot.ai-sdk.dev/demo](https://ce-aichat.vercel.app/)
 
 Try:
 
