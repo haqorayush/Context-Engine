@@ -35,6 +35,7 @@
     "@streamdown/math": "^1.0.2",
     "@streamdown/mermaid": "^1.0.2",
     "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "ai": "6.0.116",
     "bcrypt-ts": "^5.0.2",
     "botid": "^1.5.11",
