@@ -1,4 +1,4 @@
-# 🧠 Context-Engine — Memory-Aware LLM Orchestration & Chat System
+# Context-Engine — Memory-Aware LLM Orchestration & Chat System (Formerly Chat.SDK)
 
 > A modern, stateful AI chat application and orchestration platform built with **Next.js 16**, **Vercel AI SDK**, **OpenRouter**, **Drizzle ORM (PostgreSQL)**, and **NextAuth**.
 
