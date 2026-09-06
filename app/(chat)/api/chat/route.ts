@@ -286,6 +286,12 @@ export async function POST(request: Request) {
       onError: (error) => {
         if (
           error instanceof Error &&
+          error.message?.includes("User not found")
+        ) {
+          return "OpenRouter authentication failed: 'User not found.' Please verify that your OPENROUTER_API_KEY is properly set in your Vercel Environment Variables and that you have redeployed the project.";
+        }
+        if (
+          error instanceof Error &&
           error.message?.includes(
             "AI Gateway requires a valid credit card on file to service requests"
           )

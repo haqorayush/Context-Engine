@@ -158,7 +158,13 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
       mutate(unstable_serialize(getChatHistoryPaginationKey));
     },
     onError: (error) => {
-      if (error.message?.includes("AI Gateway requires a valid credit card")) {
+      if (error.message?.includes("User not found")) {
+        toast({
+          type: "error",
+          description:
+            "OpenRouter authentication failed ('User not found'). Check your OPENROUTER_API_KEY in Vercel settings and redeploy.",
+        });
+      } else if (error.message?.includes("AI Gateway requires a valid credit card")) {
         setShowCreditCardAlert(true);
       } else if (error instanceof ChatbotError) {
         toast({ type: "error", description: error.message });

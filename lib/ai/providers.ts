@@ -3,12 +3,27 @@ import { createOpenAI } from "@ai-sdk/openai";
 import { isTestEnvironment } from "../constants";
 import { titleModel } from "./models";
 
+const rawApiKey =
+  process.env.OPENROUTER_API_KEY || process.env.OPENAI_API_KEY || "";
+const cleanApiKey = rawApiKey.trim().replace(/^["']|["']$/g, "");
+
+const isUsingOpenRouter = Boolean(process.env.OPENROUTER_API_KEY);
+const defaultBaseUrl = isUsingOpenRouter
+  ? "https://openrouter.ai/api/v1"
+  : "https://api.openai.com/v1";
+
 const openai = createOpenAI({
-  apiKey: process.env.OPENROUTER_API_KEY || process.env.OPENAI_API_KEY,
+  apiKey: cleanApiKey || undefined,
   baseURL:
     process.env.OPENROUTER_BASE_URL ||
     process.env.OPENAI_BASE_URL ||
-    "https://openrouter.ai/api/v1",
+    defaultBaseUrl,
+  headers: {
+    ...(process.env.NEXT_PUBLIC_APP_URL && {
+      "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL,
+    }),
+    "X-Title": "Context Engine",
+  },
 });
 
 export const myProvider = isTestEnvironment
