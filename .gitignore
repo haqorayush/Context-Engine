@@ -1,28 +1,51 @@
-node_modules
-.pnp
+# Dependencies
+/node_modules
+/.pnp
 .pnp.js
-coverage
-.next/
-out/
-build
-.DS_Store
-*.pem
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+.yarn/install-state.gz
+
+# Next.js build output
+/.next/
+/out/
+/build
+
+# Production & Environment Variables (NEVER commit secrets to Git/Vercel)
+.env
+.env*.local
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
-.turbo
-.env
+
+# Vercel
 .vercel
-.env*.local
+
+# Debug & Log files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# System & OS Files
+.DS_Store
+*.pem
+Thumbs.db
+
+# Turborepo
+.turbo
+
+# Testing
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/*
+coverage
+
+# TypeScript
 next-env.d.ts
 tsconfig.tsbuildinfo
+
+# Uploads & User generated content
 public/uploads
+cookies.txt

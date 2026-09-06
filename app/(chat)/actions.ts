@@ -29,7 +29,7 @@ export async function generateTitleFromUserMessage({
     model: getTitleModel(),
     system: titlePrompt,
     prompt: getTextFromMessage(message),
-
+    maxOutputTokens: 50,
   });
   return text
     .replace(/^[#*"\s]+/, "")
